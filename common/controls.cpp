@@ -78,8 +78,8 @@ int controls::computeMatricesfromInputs(glm::mat4* ProjectionMatrix, glm::mat4* 
     lastX = xpos;
     lastY = ypos;
 
-    horizontalAngle += mouseSpeed * deltaTime * xoffset; 
-    verticalAngle   += mouseSpeed * deltaTime * yoffset;
+    horizontalAngle += mouseSpeed * deltaTime * xoffset;
+    verticalAngle   = glm::clamp(verticalAngle + mouseSpeed * deltaTime * yoffset, -1.55f, 1.55f);
 
     glm::vec3 direction( 
         cos(verticalAngle) * sin(horizontalAngle), 
@@ -94,7 +94,7 @@ int controls::computeMatricesfromInputs(glm::mat4* ProjectionMatrix, glm::mat4* 
     );
 
     glm::vec3 up = glm::cross( right, direction );
-    glm::vec3 globalUp = glm::vec3(0, -1, 0);
+    glm::vec3 globalUp = glm::vec3(0, 1, 0);
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) position += direction * deltaTime * speed; 
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) position -= direction * deltaTime * speed;

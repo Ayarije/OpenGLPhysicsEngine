@@ -31,10 +31,14 @@ int main( void )
 
 	GLuint programID = LoadShaders( "shaders/vertexshader.glsl", "shaders/fragmentshader.glsl" );
 
-	// Get a handle for every view matrices
+	// Get a handle for every uniform data
 	GLuint ProjMatID = glGetUniformLocation(programID, "ProjMat");
 	GLuint ViewMatID = glGetUniformLocation(programID, "ViewMat");
 	GLuint ModelMatID = glGetUniformLocation(programID, "ModelMat");
+	GLuint LightPositionID = glGetUniformLocation(programID, "LightPosition");
+
+	// Set lightPos
+	glm::vec3 lightPos = glm::vec3(4.0f, 4.0f, 4.0f);
 
 	// Setup Camera Matrices
 	glm::mat4 ProjMat;
@@ -42,13 +46,16 @@ int main( void )
 	
 	// Model matrix : an identity matrix (model will be at the origin)
 	glm::mat4 CubeModel = glm::mat4(1.0f);
+
+	// Get data from .obj file
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals;
 
-	if (!loadOBJ("models/cube/cube.obj", vertices, uvs, normals)) return -1;
-	GLuint cubeTexID = loadDDS("models/cube/cube.DDS");
+	if (!loadOBJ("models/suzanne/suzanne.obj", vertices, uvs, normals)) return -1;
+	GLuint cubeTexID = loadDDS("models/suzanne/suzanne.DDS");
 
+	/* ----[ SETUP BUFFERS CONTENT ]---- */
 	GLuint vertexbuffer;
 	glGenBuffers(1, &vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -64,7 +71,7 @@ int main( void )
 	glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
 	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
 
-    /* ---[ SETUP BUFFERS PARAMETERS ]---- */
+    /* ----[ SETUP BUFFERS PARAMETERS ]---- */
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glVertexAttribPointer(
@@ -78,7 +85,7 @@ int main( void )
 
 	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, uvbuffer); 
-	glVertexAttribPointer( 
+	glVertexAttribPointer(
 		1,                                
 		2,
 		GL_FLOAT,
@@ -111,6 +118,7 @@ int main( void )
 
         glUniformMatrix4fv(ProjMatID, 1, GL_FALSE, &ProjMat[0][0]);
 		glUniformMatrix4fv(ViewMatID, 1, GL_FALSE, &ViewMat[0][0]);
+		glUniform3f(LightPositionID, lightPos.x, lightPos.y, lightPos.z);
 
         // Draw the model
 		glUniformMatrix4fv(ModelMatID, 1, GL_FALSE, &CubeModel[0][0]);
