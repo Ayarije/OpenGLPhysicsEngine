@@ -107,6 +107,7 @@ bool loadOBJ(
 	
 	}
 	fclose(file);
+	printf("Successfuly read .obj file !\n");
 	return true;
 }
 

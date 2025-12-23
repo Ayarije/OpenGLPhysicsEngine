@@ -98,8 +98,8 @@ int controls::computeMatricesfromInputs(glm::mat4* ProjectionMatrix, glm::mat4* 
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) position += direction * deltaTime * speed; 
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) position -= direction * deltaTime * speed;
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) position += right * deltaTime * speed; 
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) position -= right * deltaTime * speed;
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) position += right * deltaTime * speed; 
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) position -= right * deltaTime * speed;
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) position += globalUp * deltaTime * speed;
     if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) position -= globalUp * deltaTime * speed;
 
