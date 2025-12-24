@@ -4,14 +4,15 @@ This project is an OpenGL-based physics engine designed for rendering and simula
 
 ## Project Structure
 
+- **models/**: Directory for 3D model files.
+
+- **shaders/**: Contains GLSL shader files for rendering.
+
 - **src/**: Contains the main source code for the engine.
   - **main.cpp**: Entry point of the application.
-  - **lib/**: Contains library files for controls, object loading, and window management.
-  - **models/**: Directory for 3D model files.
-  - **shaders/**: Contains GLSL shader files for rendering.
   
 - **common/**: Contains shared utility files and classes used across the project.
-  
+
 - **external/**: Includes external libraries and dependencies required for the project.
   
 - **distrib/**: Contains distribution-related files and scripts.
