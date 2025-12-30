@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
+#include <unordered_map>
 
 #include <GL/glew.h>
 
@@ -15,7 +16,6 @@ using namespace glm;
 #include "common/texture.hpp"
 #include "common/windowlib.hpp"
 #include "common/controls.hpp"
-#include "common/objloader.hpp"
 
 int main( void )
 {
@@ -51,11 +51,17 @@ int main( void )
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals;
+	std::vector<unsigned short> indices;
 
 	if (!loadOBJ("models/suzanne/suzanne.obj", vertices, uvs, normals)) return -1;
 	GLuint cubeTexID = loadDDS("models/suzanne/suzanne.DDS");
 
 	/* ----[ SETUP BUFFERS CONTENT ]---- */
+	GLuint elementbuffer; 
+	glGenBuffers(1, &elementbuffer); 
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer); 
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
 	GLuint vertexbuffer;
 	glGenBuffers(1, &vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -122,7 +128,16 @@ int main( void )
 
         // Draw the model
 		glUniformMatrix4fv(ModelMatID, 1, GL_FALSE, &CubeModel[0][0]);
-        glDrawArrays(GL_TRIANGLES, 0, sizeof(glm::vec3) * vertices.size());
+        // Index buffer 
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer); 
+		
+		// Dessine les triangles  
+		glDrawElements( 
+			GL_TRIANGLES,      // mode 
+			indices.size(),    // nombre
+			GL_UNSIGNED_INT,   // type 
+			(void*)0           // décalage  du tableau de tampons
+		);
 
 		// Swap buffers
 		glfwSwapBuffers(window);

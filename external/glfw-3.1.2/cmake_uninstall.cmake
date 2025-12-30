@@ -1,9 +1,9 @@
 
-if (NOT EXISTS "/home/kilt/projects/OpenGLPhysicsEngine/external/glfw-3.1.2/install_manifest.txt")
-  message(FATAL_ERROR "Cannot find install manifest: \"/home/kilt/projects/OpenGLPhysicsEngine/external/glfw-3.1.2/install_manifest.txt\"")
+if (NOT EXISTS "/home/valentin/projects/OpenGLPhysicsEngine/external/glfw-3.1.2/install_manifest.txt")
+  message(FATAL_ERROR "Cannot find install manifest: \"/home/valentin/projects/OpenGLPhysicsEngine/external/glfw-3.1.2/install_manifest.txt\"")
 endif()
 
-file(READ "/home/kilt/projects/OpenGLPhysicsEngine/external/glfw-3.1.2/install_manifest.txt" files)
+file(READ "/home/valentin/projects/OpenGLPhysicsEngine/external/glfw-3.1.2/install_manifest.txt" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 
 foreach (file ${files})

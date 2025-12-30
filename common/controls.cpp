@@ -8,9 +8,9 @@ namespace controls {
 
     bool initialized = false;
 
-    glm::vec3 position = glm::vec3( 3, -2, 3 );
+    glm::vec3 position = glm::vec3(0, 0, 5);
     float horizontalAngle = 3.14f;
-    float verticalAngle = 1.57f;
+    float verticalAngle = 0.0f;
     float initialFoV = 45.0f;
     float currentFoV = initialFoV;
 

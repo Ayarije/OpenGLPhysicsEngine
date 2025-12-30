@@ -14,12 +14,22 @@ uniform vec3 LightPosition; // Light position in world space
 
 void main() {
 	vec3 MaterialDiffuseColor = texture( myTextureSampler, UV ).rgb;
-	float cosTheta = clamp(dot(Normal_cameraspace, LightDirection_cameraspace), 0, 1);
-
-	vec3 LightColor = vec3(1.0, 1.0, 1.0);
-	float LightPower = 20.0;
-	vec3 diff = Position_worldspace - LightPosition;
+	vec3 MaterialSpecularColor = vec3(0.3,0.3,0.3);
 	vec3 MaterialAmbientColor = vec3(0.1,0.1,0.1) * MaterialDiffuseColor;
 
-	color = MaterialAmbientColor + MaterialDiffuseColor * LightColor * LightPower * cosTheta / dot(diff, diff);
+	vec3 LightColor = vec3(1.0, 1.0, 1.0);
+	float LightPower = 40.0;
+	
+	float cosTheta = clamp(dot(Normal_cameraspace, LightDirection_cameraspace), 0, 1);
+
+	vec3 Reflect = reflect(-LightDirection_cameraspace, Normal_cameraspace);
+	float cosAlpha = clamp(dot(EyeDirection_cameraspace, Reflect), 0, 1);
+
+	vec3 diff = Position_worldspace - LightPosition;
+	float dist_sqrd = dot(diff, diff);
+
+	color =
+	MaterialAmbientColor +
+	MaterialDiffuseColor * LightColor * LightPower * cosTheta / dist_sqrd +
+	MaterialSpecularColor * LightColor * LightPower * pow(cosAlpha, 5) / dist_sqrd;
 }
