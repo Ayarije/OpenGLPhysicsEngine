@@ -8,9 +8,12 @@
 #include <unordered_map>
 using namespace std;
 
+#include <GL/glew.h>
+
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 using namespace glm;
+
 
 struct Vertex
 {
@@ -56,15 +59,28 @@ class Model
 {
 private:
     vector< unsigned short > indices;
+
+    mat4 TranslationMat;
+    mat4 ScaleMat;
+    mat4 RotationMat;
+    mat4 MaterialMat;
+
+    GLuint ModelID;
+    GLuint MaterialID;
 public:
-    Model(string filepath);
+    Model(GLuint programID, ModelLoader loader, string filepath);
     ~Model();
 
-    bool draw();
+    int setPos(vec3 pos);
+    int setScale(vec3 scale);
+    int setRotation(vec3 omega);
+
+    int draw();
 };
 
 class ModelLoader
 {
+public:
     ModelLoader();
     ~ModelLoader();
 
@@ -72,8 +88,8 @@ class ModelLoader
     
     vector< Vertex > vertex_buffer;
 
-    int drawModels();
-    int loadOBJ(string filepath, vector< unsigned int > &out_indices);
+    int drawModels(unordered_map<string, mat4> uniform_data);
+    int loadOBJ(string filepath, vector< unsigned short > &out_indices);
 };
 
 #endif
